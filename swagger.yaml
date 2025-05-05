@@ -1,0 +1,544 @@
+openapi: 3.0.0
+info:
+  title: JSON Mock API Server
+  description: A RESTful API for mocking backend responses with JSON data
+  version: 1.0.0
+  contact:
+    email: example@example.com
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: Users
+    description: User management endpoints
+  - name: Posts
+    description: Post management endpoints
+  - name: Comments
+    description: Comment management endpoints
+  - name: Custom
+    description: Custom endpoint management
+
+paths:
+  /users:
+    get:
+      summary: Get all users
+      description: Returns a list of users with pagination
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Number of users to return
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  count:
+                    type: integer
+                    example: 10
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  page:
+                    type: integer
+                    example: 1
+                  limit:
+                    type: integer
+                    example: 10
+                  totalPages:
+                    type: integer
+                    example: 1
+
+    post:
+      summary: Create a new user
+      description: Creates a new user with the provided data or generates random data
+      tags:
+        - Users
+      requestBody:
+        description: User data (optional, missing fields will be generated)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User created successfully
+                  data:
+                    $ref: '#/components/schemas/User'
+
+    delete:
+      summary: Delete all users and regenerate
+      description: Deletes all users and generates new ones
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: count
+          schema:
+            type: integer
+            default: 10
+          description: Number of users to generate
+      responses:
+        200:
+          description: Users regenerated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: All users deleted and regenerated 10 new users
+                  count:
+                    type: integer
+                    example: 10
+
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Returns a single user by ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      responses:
+        200:
+          description: User found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: User with ID 123 not found
+
+    put:
+      summary: Update a user
+      description: Updates a user with the provided data
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      requestBody:
+        description: Updated user data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User updated successfully
+                  data:
+                    $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      summary: Partially update a user
+      description: Updates a user with the provided data
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      requestBody:
+        description: Partial user data
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User updated successfully
+                  data:
+                    $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a user
+      description: Deletes a user by ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      responses:
+        200:
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User deleted successfully
+                  data:
+                    $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /posts:
+    get:
+      summary: Get all posts
+      description: Returns a list of posts with pagination
+      tags:
+        - Posts
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Number of posts to return
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+      responses:
+        200:
+          description: A list of posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  count:
+                    type: integer
+                    example: 20
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+                  page:
+                    type: integer
+                    example: 1
+                  limit:
+                    type: integer
+                    example: 10
+                  totalPages:
+                    type: integer
+                    example: 2
+
+    post:
+      summary: Create a new post
+      description: Creates a new post with the provided data or generates random data
+      tags:
+        - Posts
+      requestBody:
+        description: Post data (optional, missing fields will be generated)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        201:
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Post created successfully
+                  data:
+                    $ref: '#/components/schemas/Post'
+
+  /custom/endpoints:
+    post:
+      summary: Create a custom endpoint
+      description: Creates a new custom endpoint with the specified schema
+      tags:
+        - Custom
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - path
+                - schema
+              properties:
+                path:
+                  type: string
+                  example: products
+                  description: The endpoint path (without leading slash)
+                schema:
+                  type: object
+                  example:
+                    id: id
+                    name: word
+                    price: number
+                    description: paragraph
+                    image: image
+                    createdAt: date
+                  description: Schema definition using supported data types
+                methods:
+                  type: array
+                  items:
+                    type: string
+                    enum: [GET, POST, PUT, PATCH, DELETE]
+                  example: [GET, POST, PUT, DELETE]
+                  description: HTTP methods to support (optional)
+      responses:
+        201:
+          description: Custom endpoint created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Custom endpoint created at /api/custom/products
+                  data:
+                    type: object
+                    properties:
+                      path:
+                        type: string
+                        example: products
+                      schema:
+                        type: object
+                      methods:
+                        type: array
+                        items:
+                          type: string
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5f8d0f3e-6c86-4c90-9073-95c2a0e5a9f9
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john.doe@example.com
+        avatar:
+          type: string
+          example: https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1.jpg
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+              example: 123 Main St
+            city:
+              type: string
+              example: Anytown
+            state:
+              type: string
+              example: CA
+            zipCode:
+              type: string
+              example: '12345'
+            country:
+              type: string
+              example: USA
+        phone:
+          type: string
+          example: 555-123-4567
+        website:
+          type: string
+          example: https://example.com
+        company:
+          type: string
+          example: Acme Inc
+        createdAt:
+          type: string
+          format: date-time
+          example: 2023-01-15T12:00:00.000Z
+
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 7a9c4d3b-2e1f-5a8c-9b6d-4e3f2c1a0b9d
+        userId:
+          type: string
+          example: 5f8d0f3e-6c86-4c90-9073-95c2a0e5a9f9
+        title:
+          type: string
+          example: This is a sample post title
+        body:
+          type: string
+          example: This is the body of the post with multiple paragraphs...
+        image:
+          type: string
+          example: https://loremflickr.com/640/480
+        categories:
+          type: array
+          items:
+            type: string
+          example: [technology, news]
+        tags:
+          type: array
+          items:
+            type: string
+          example: [important, featured]
+        createdAt:
+          type: string
+          format: date-time
+          example: 2023-02-10T14:30:00.000Z
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r
+        postId:
+          type: string
+          example: 7a9c4d3b-2e1f-5a8c-9b6d-4e3f2c1a0b9d
+        userId:
+          type: string
+          example: 5f8d0f3e-6c86-4c90-9073-95c2a0e5a9f9
+        name:
+          type: string
+          example: Jane Smith
+        email:
+          type: string
+          example: jane.smith@example.com
+        body:
+          type: string
+          example: This is a great post! Thanks for sharing.
+        createdAt:
+          type: string
+          format: date-time
+          example: 2023-02-15T10:45:00.000Z
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: Resource not found 

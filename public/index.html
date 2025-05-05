@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Mock API Server</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <a href="#home" class="logo-link">
+                <div class="logo">
+                    <i class="fas fa-exchange-alt fa-lg"></i>
+                    <h1>JSON Mock API</h1>
+                </div>
+            </a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#endpoints">Endpoints</a></li>
+                    <li><a href="#custom">Custom API</a></li>
+                    <li><a href="#docs">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="main">
+            <section id="home" class="section active">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h2>Your Mock API Server</h2>
+                        <p>Generate realistic API responses with customizable data</p>
+                        <div class="cta-buttons">
+                            <a href="#endpoints" class="btn primary nav-link">Explore Endpoints</a>
+                            <a href="#custom" class="btn secondary nav-link">Create Custom API</a>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="code-window">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="title">Example Response</span>
+                            </div>
+                            <pre><code>{
+  "status": "success",
+  "data": {
+    "id": "f7c98d01-3e4a-5b2c-9f8d-7e6a5b4c3d2e",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "createdAt": "2023-04-12T10:22:33.000Z"
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>RESTful API</h3>
+                        <p>Full RESTful API with support for GET, POST, PUT, PATCH, and DELETE methods</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-random"></i>
+                        </div>
+                        <h3>Random Data</h3>
+                        <p>Generate realistic random data using Faker.js</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Custom Endpoints</h3>
+                        <p>Create your own custom endpoints with specific schemas</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>API Docs</h3>
+                        <p>Swagger documentation for all endpoints</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="endpoints" class="section">
+                <h2>Available Endpoints</h2>
+                <p class="section-description">Use these predefined endpoints to get started quickly</p>
+                
+                <div class="endpoint-cards">
+                    <div class="endpoint-card">
+                        <div class="endpoint-header">
+                            <h3>Users</h3>
+                            <span class="base-url">/api/users</span>
+                        </div>
+                        <div class="endpoint-body">
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/users</span>
+                                <span class="description">Get all users</span>
+                                <button class="try-btn" data-url="/api/users" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/users/:id</span>
+                                <span class="description">Get user by ID</span>
+                                <button class="try-btn" data-url="/api/users/1" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method post">POST</span>
+                                <span class="path">/api/users</span>
+                                <span class="description">Create user</span>
+                                <button class="try-btn" data-url="/api/users" data-method="POST">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method put">PUT</span>
+                                <span class="path">/api/users/:id</span>
+                                <span class="description">Update user</span>
+                                <button class="try-btn" data-url="/api/users/1" data-method="PUT">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method delete">DELETE</span>
+                                <span class="path">/api/users/:id</span>
+                                <span class="description">Delete user</span>
+                                <button class="try-btn" data-url="/api/users/1" data-method="DELETE">Try it</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-card">
+                        <div class="endpoint-header">
+                            <h3>Posts</h3>
+                            <span class="base-url">/api/posts</span>
+                        </div>
+                        <div class="endpoint-body">
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/posts</span>
+                                <span class="description">Get all posts</span>
+                                <button class="try-btn" data-url="/api/posts" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/posts/:id</span>
+                                <span class="description">Get post by ID</span>
+                                <button class="try-btn" data-url="/api/posts/1" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/posts/user/:userId</span>
+                                <span class="description">Get user posts</span>
+                                <button class="try-btn" data-url="/api/posts/user/1" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method post">POST</span>
+                                <span class="path">/api/posts</span>
+                                <span class="description">Create post</span>
+                                <button class="try-btn" data-url="/api/posts" data-method="POST">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method delete">DELETE</span>
+                                <span class="path">/api/posts/:id</span>
+                                <span class="description">Delete post</span>
+                                <button class="try-btn" data-url="/api/posts/1" data-method="DELETE">Try it</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-card">
+                        <div class="endpoint-header">
+                            <h3>Comments</h3>
+                            <span class="base-url">/api/comments</span>
+                        </div>
+                        <div class="endpoint-body">
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/comments</span>
+                                <span class="description">Get all comments</span>
+                                <button class="try-btn" data-url="/api/comments" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/comments/:id</span>
+                                <span class="description">Get comment by ID</span>
+                                <button class="try-btn" data-url="/api/comments/1" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method get">GET</span>
+                                <span class="path">/api/comments/post/:postId</span>
+                                <span class="description">Get post comments</span>
+                                <button class="try-btn" data-url="/api/comments/post/1" data-method="GET">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method post">POST</span>
+                                <span class="path">/api/comments</span>
+                                <span class="description">Create comment</span>
+                                <button class="try-btn" data-url="/api/comments" data-method="POST">Try it</button>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method delete">DELETE</span>
+                                <span class="path">/api/comments/:id</span>
+                                <span class="description">Delete comment</span>
+                                <button class="try-btn" data-url="/api/comments/1" data-method="DELETE">Try it</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="custom" class="section">
+                <h2>Create Custom API</h2>
+                <p class="section-description">Design your own endpoints with custom data schemas</p>
+                
+                <div class="custom-api-container">
+                    <div class="form-container">
+                        <form id="custom-endpoint-form">
+                            <div class="form-group">
+                                <label for="endpoint-path">Endpoint Path</label>
+                                <div class="input-prefix">
+                                    <span>/api/custom/</span>
+                                    <input type="text" id="endpoint-path" placeholder="products" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>HTTP Methods</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="GET" checked> GET
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="POST" checked> POST
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="PUT" checked> PUT
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="PATCH"> PATCH
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="DELETE" checked> DELETE
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Schema Definition</label>
+                                <p class="help-text">Define the fields and their data types</p>
+                                
+                                <div id="schema-fields">
+                                    <div class="schema-field">
+                                        <input type="text" class="field-name" placeholder="id" value="id">
+                                        <select class="field-type">
+                                            <option value="id" selected>ID</option>
+                                            <option value="firstName">First Name</option>
+                                            <option value="lastName">Last Name</option>
+                                            <option value="fullName">Full Name</option>
+                                            <option value="email">Email</option>
+                                            <option value="phone">Phone</option>
+                                            <option value="address">Address</option>
+                                            <option value="city">City</option>
+                                            <option value="country">Country</option>
+                                            <option value="company">Company</option>
+                                            <option value="word">Word</option>
+                                            <option value="sentence">Sentence</option>
+                                            <option value="paragraph">Paragraph</option>
+                                            <option value="number">Number</option>
+                                            <option value="boolean">Boolean</option>
+                                            <option value="date">Date</option>
+                                            <option value="image">Image URL</option>
+                                            <option value="color">Color</option>
+                                            <option value="url">URL</option>
+                                        </select>
+                                        <button type="button" class="remove-field-btn" disabled>×</button>
+                                    </div>
+                                    <div class="schema-field">
+                                        <input type="text" class="field-name" placeholder="name">
+                                        <select class="field-type">
+                                            <option value="id">ID</option>
+                                            <option value="firstName">First Name</option>
+                                            <option value="lastName">Last Name</option>
+                                            <option value="fullName">Full Name</option>
+                                            <option value="email">Email</option>
+                                            <option value="phone">Phone</option>
+                                            <option value="address">Address</option>
+                                            <option value="city">City</option>
+                                            <option value="country">Country</option>
+                                            <option value="company">Company</option>
+                                            <option value="word" selected>Word</option>
+                                            <option value="sentence">Sentence</option>
+                                            <option value="paragraph">Paragraph</option>
+                                            <option value="number">Number</option>
+                                            <option value="boolean">Boolean</option>
+                                            <option value="date">Date</option>
+                                            <option value="image">Image URL</option>
+                                            <option value="color">Color</option>
+                                            <option value="url">URL</option>
+                                        </select>
+                                        <button type="button" class="remove-field-btn">×</button>
+                                    </div>
+                                    <div class="schema-field">
+                                        <input type="text" class="field-name" placeholder="description">
+                                        <select class="field-type">
+                                            <option value="id">ID</option>
+                                            <option value="firstName">First Name</option>
+                                            <option value="lastName">Last Name</option>
+                                            <option value="fullName">Full Name</option>
+                                            <option value="email">Email</option>
+                                            <option value="phone">Phone</option>
+                                            <option value="address">Address</option>
+                                            <option value="city">City</option>
+                                            <option value="country">Country</option>
+                                            <option value="company">Company</option>
+                                            <option value="word">Word</option>
+                                            <option value="sentence">Sentence</option>
+                                            <option value="paragraph" selected>Paragraph</option>
+                                            <option value="number">Number</option>
+                                            <option value="boolean">Boolean</option>
+                                            <option value="date">Date</option>
+                                            <option value="image">Image URL</option>
+                                            <option value="color">Color</option>
+                                            <option value="url">URL</option>
+                                        </select>
+                                        <button type="button" class="remove-field-btn">×</button>
+                                    </div>
+                                </div>
+                                
+                                <button type="button" id="add-field-btn" class="btn secondary small">Add Field</button>
+                            </div>
+                            
+                            <button type="submit" class="btn primary">Create Endpoint</button>
+                        </form>
+                    </div>
+                    
+                    <div class="preview-container">
+                        <div class="code-window">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="title">Preview</span>
+                            </div>
+                            <pre><code id="schema-preview">{
+  "id": "e1d2c3b4-a5f6-7e8d-9c0b-1a2b3c4d5e6f",
+  "name": "Product",
+  "description": "This is a description of the product with multiple sentences. It can contain various details about features and specifications."
+}</code></pre>
+                        </div>
+                        
+                        <div id="endpoint-result" class="hidden">
+                            <h3>Endpoint Created!</h3>
+                            <p>Your custom endpoint is now available at:</p>
+                            <div class="url-display">
+                                <span id="created-endpoint-url"></span>
+                                <button id="copy-url-btn" class="btn icon-btn" title="Copy URL">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="endpoint-actions">
+                                <button id="test-endpoint-btn" class="btn secondary">Test Endpoint</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="custom-endpoints-list-container">
+                    <h3>Your Custom Endpoints</h3>
+                    <div id="custom-endpoints-list" class="custom-endpoints-list">
+                        <p class="empty-state">No custom endpoints created yet</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="docs" class="section">
+                <h2>API Documentation</h2>
+                <p class="section-description">Explore the full API documentation</p>
+                
+                <div class="docs-container">
+                    <div class="docs-card">
+                        <h3>Swagger UI</h3>
+                        <p>Interactive API documentation with Swagger UI</p>
+                        <a href="/api-docs" target="_blank" class="btn primary">Open Swagger UI</a>
+                    </div>
+                    
+                    <div class="docs-card">
+                        <h3>API Base URL</h3>
+                        <p>All API endpoints are served under:</p>
+                        <div class="code-block">
+                            <code>http://localhost:3000/api</code>
+                            <button class="copy-btn" data-text="http://localhost:3000/api">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="docs-card">
+                        <h3>GitHub Repository</h3>
+                        <p>View the source code and contribute</p>
+                        <a href="https://github.com/your-username/json-mock-api" target="_blank" class="btn secondary">
+                            <i class="fab fa-github"></i> View on GitHub
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div id="request-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="request-title">API Request</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="request-details">
+                        <div class="request-url-container">
+                            <span id="request-method" class="method get">GET</span>
+                            <input type="text" id="request-url" value="/api/users" readonly>
+                        </div>
+                        
+                        <div class="request-body-container" id="request-body-container">
+                            <label for="request-body">Request Body (JSON)</label>
+                            <textarea id="request-body" rows="5" placeholder="{
+  // Enter request body here
+}"></textarea>
+                        </div>
+                        
+                        <button id="send-request-btn" class="btn primary">Send Request</button>
+                    </div>
+                    
+                    <div class="response-container">
+                        <div class="response-header">
+                            <h4>Response</h4>
+                            <div class="response-meta">
+                                <span id="response-status"></span>
+                                <span id="response-time"></span>
+                            </div>
+                        </div>
+                        <div class="code-window">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="title">Response</span>
+                                <button id="copy-response-btn" class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code id="response-data"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2023 JSON Mock API. Built with <i class="fas fa-heart"></i> using Node.js and Express.</p>
+    </footer>
+
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <div class="toast-message"></div>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html> 
