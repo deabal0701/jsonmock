@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
+require('dotenv').config();
 
 // Routes
 const usersRoute = require('./routes/users');
@@ -17,8 +18,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
-app.use(morgan('dev'));
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*'
+}));
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -38,6 +41,13 @@ app.use((req, res, next) => {
 // Load Swagger document
 try {
   const swaggerDocument = YAML.load(path.join(__dirname, '../swagger.yaml'));
+  // Update server URL if in production
+  if (process.env.NODE_ENV === 'production' && process.env.BASE_URL) {
+    if (swaggerDocument.servers && swaggerDocument.servers.length) {
+      swaggerDocument.servers[0].url = `${process.env.BASE_URL}/api`;
+      swaggerDocument.servers[0].description = 'Production server';
+    }
+  }
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 } catch (error) {
   console.warn('Swagger document not found, API docs will not be available');
@@ -73,6 +83,6 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Mock API Server running at http://localhost:${PORT}`);
-  console.log(`📚 API Documentation available at http://localhost:${PORT}/api-docs`);
+  console.log(`🚀 Mock API Server running at ${process.env.NODE_ENV === 'production' ? process.env.BASE_URL : `http://localhost:${PORT}`}`);
+  console.log(`📚 API Documentation available at ${process.env.NODE_ENV === 'production' ? `${process.env.BASE_URL}/api-docs` : `http://localhost:${PORT}/api-docs`}`);
 }); 

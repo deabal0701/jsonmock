@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const tryButtons = document.querySelectorAll('.try-btn');
   const sectionNavLinks = document.querySelectorAll('a[href^="#"]:not([href^="http"])');
 
+  // API Base URL - will be used for all API requests
+  const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? `http://${window.location.hostname}:${window.location.port}/api` 
+    : `${window.location.protocol}//${window.location.host}/api`;
+
   // Function to handle section navigation
   const navigateToSection = (e) => {
     if (e.currentTarget.classList.contains('nav-no-action')) {
@@ -330,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // Send the request to create the endpoint
-    fetch('/api/custom/endpoints', {
+    fetch(`${API_BASE_URL}/custom/endpoints`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -342,7 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (data.status === 'success') {
         // Show success message
         endpointResult.classList.remove('hidden');
-        createdEndpointUrl.textContent = `http://localhost:3000/api/custom/${endpointPath}`;
+        // Get the full URL including hostname
+        const fullUrl = `${window.location.origin}${API_BASE_URL.substring(API_BASE_URL.indexOf('/api'))}/custom/${endpointPath}`;
+        createdEndpointUrl.textContent = fullUrl;
         
         // Add to custom endpoints list
         updateCustomEndpointsList();
@@ -359,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Update custom endpoints list
   function updateCustomEndpointsList() {
-    fetch('/api/custom')
+    fetch(`${API_BASE_URL}/custom`)
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success' && data.data.length > 0) {
@@ -371,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const endpointPath = document.createElement('div');
             endpointPath.className = 'endpoint-path';
-            endpointPath.textContent = `/api/custom/${endpoint.path}`;
+            endpointPath.textContent = `${API_BASE_URL}/custom/${endpoint.path}`;
             
             const endpointInfo = document.createElement('div');
             endpointInfo.className = 'endpoint-info';
@@ -389,10 +396,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const tryButton = document.createElement('button');
             tryButton.className = 'try-btn';
             tryButton.textContent = 'Try it';
-            tryButton.setAttribute('data-url', `/api/custom/${endpoint.path}`);
+            tryButton.setAttribute('data-url', `${API_BASE_URL}/custom/${endpoint.path}`);
             tryButton.setAttribute('data-method', 'GET');
             tryButton.addEventListener('click', () => {
-              openRequestModal(`/api/custom/${endpoint.path}`, 'GET');
+              openRequestModal(`${API_BASE_URL}/custom/${endpoint.path}`, 'GET');
             });
             
             const deleteButton = document.createElement('button');
@@ -422,8 +429,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Delete custom endpoint
   function deleteCustomEndpoint(path) {
-    if (confirm(`Are you sure you want to delete the endpoint /api/custom/${path}?`)) {
-      fetch(`/api/custom/endpoints/${path}`, {
+    if (confirm(`Are you sure you want to delete the endpoint ${API_BASE_URL}/custom/${path}?`)) {
+      fetch(`${API_BASE_URL}/custom/endpoints/${path}`, {
         method: 'DELETE'
       })
         .then(response => response.json())
@@ -563,4 +570,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial setup
   updateSchemaPreview();
   updateCustomEndpointsList();
+  
+  // Update API Base URL in documentation
+  const apiBaseUrlElement = document.getElementById('api-base-url');
+  if (apiBaseUrlElement) {
+    apiBaseUrlElement.textContent = API_BASE_URL;
+    
+    // Also update the copy button's data-text
+    const copyApiUrlBtn = apiBaseUrlElement.nextElementSibling;
+    if (copyApiUrlBtn && copyApiUrlBtn.classList.contains('copy-btn')) {
+      copyApiUrlBtn.setAttribute('data-text', API_BASE_URL);
+    }
+  }
 }); 
