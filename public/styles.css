@@ -733,10 +733,8 @@ input:focus, select:focus, textarea:focus {
   padding: var(--spacing-4);
   border-bottom: 1px solid var(--gray-200);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--spacing-4);
+  flex-direction: column;
+  gap: var(--spacing-3);
 }
 
 .custom-endpoint-item:last-child {
@@ -751,13 +749,14 @@ input:focus, select:focus, textarea:focus {
 
 .endpoint-info {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-2);
+  flex-direction: column;
+  gap: var(--spacing-3);
 }
 
 .endpoint-methods {
   display: flex;
   gap: var(--spacing-1);
+  flex-wrap: wrap;
 }
 
 .endpoint-method-tag {
@@ -1003,9 +1002,13 @@ input:focus, select:focus, textarea:focus {
   bottom: 0;
   left: 0;
   height: 3px;
-  background-color: var(--primary-color);
+  background-color: var(--success-color);
   border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
   animation: progress 3s linear forwards;
+}
+
+.toast.info .toast-progress {
+  background-color: var(--info-color);
 }
 
 @keyframes progress {
@@ -1101,4 +1104,123 @@ input:focus, select:focus, textarea:focus {
 /* Toast 메시지 유형 추가 */
 .toast.info .toast-icon {
   color: var(--info-color);
+}
+
+.toast.warning .toast-icon {
+  color: var(--warning-color);
+}
+
+.toast.warning .toast-progress {
+  background-color: var(--warning-color);
+}
+
+.toast.error .toast-icon {
+  color: var(--error-color);
+}
+
+.toast.error .toast-progress {
+  background-color: var(--error-color);
+}
+
+/* Info note styling */
+.info-note {
+  display: flex;
+  align-items: center;
+  background-color: #e8f4fd;
+  border-left: 4px solid #4ea8f3;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.info-note i {
+  color: #4ea8f3;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.info-note span {
+  line-height: 1.4;
+}
+
+/* Method buttons container */
+.method-buttons-container {
+  display: flex;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+  margin: var(--spacing-2) 0;
+}
+
+/* Method button styles */
+.method-btn {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--border-radius-md);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-width: 75px;
+  text-align: center;
+}
+
+.method-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.method-btn.get {
+  background-color: var(--get-color);
+}
+
+.method-btn.post {
+  background-color: var(--post-color);
+}
+
+.method-btn.put {
+  background-color: var(--put-color);
+}
+
+.method-btn.patch {
+  background-color: var(--patch-color);
+}
+
+.method-btn.delete {
+  background-color: var(--delete-color);
+}
+
+/* Endpoint actions container */
+.endpoint-actions-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-2);
+}
+
+/* Delete button */
+.delete-btn {
+  background-color: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.delete-btn:hover {
+  background-color: #d92020;
+  transform: translateY(-1px);
+}
+
+.delete-btn i {
+  font-size: 0.75rem;
 } 

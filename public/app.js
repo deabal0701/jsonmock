@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const tryButtons = document.querySelectorAll('.try-btn');
   const sectionNavLinks = document.querySelectorAll('a[href^="#"]:not([href^="http"])');
 
+  // localStorage key for custom endpoints
+  const LOCAL_STORAGE_ENDPOINTS_KEY = 'jsonmock_custom_endpoints';
+
   // API Base URL - will be used for all API requests
   const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
     ? `http://${window.location.hostname}:${window.location.port}/api` 
@@ -72,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
       openRequestModal(url, method);
     });
   });
+
+  // Load custom endpoints from localStorage when page loads
+  updateCustomEndpointsList();
 
   // Add field button
   addFieldBtn.addEventListener('click', () => {
@@ -344,6 +350,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const fullUrl = `${window.location.origin}${API_BASE_URL.substring(API_BASE_URL.indexOf('/api'))}/custom/${endpointPath}`;
         createdEndpointUrl.textContent = fullUrl;
         
+        // Store in localStorage
+        saveEndpointToLocalStorage({
+          path: endpointPath,
+          schema: schema,
+          methods: methods,
+          url: fullUrl
+        });
+        
         // Add to custom endpoints list
         updateCustomEndpointsList();
         
@@ -357,86 +371,119 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Save endpoint to localStorage
+  function saveEndpointToLocalStorage(endpoint) {
+    // Get existing endpoints
+    const savedEndpoints = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ENDPOINTS_KEY) || '[]');
+    
+    // Add new endpoint
+    savedEndpoints.push(endpoint);
+    
+    // Save back to localStorage
+    localStorage.setItem(LOCAL_STORAGE_ENDPOINTS_KEY, JSON.stringify(savedEndpoints));
+  }
+
+  // Get endpoints from localStorage
+  function getEndpointsFromLocalStorage() {
+    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_ENDPOINTS_KEY) || '[]');
+  }
+
+  // Remove endpoint from localStorage
+  function removeEndpointFromLocalStorage(path) {
+    const savedEndpoints = getEndpointsFromLocalStorage();
+    const updatedEndpoints = savedEndpoints.filter(endpoint => endpoint.path !== path);
+    localStorage.setItem(LOCAL_STORAGE_ENDPOINTS_KEY, JSON.stringify(updatedEndpoints));
+  }
+
   // Update custom endpoints list
   function updateCustomEndpointsList() {
-    fetch(`${API_BASE_URL}/custom`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success' && data.data.length > 0) {
-          customEndpointsList.innerHTML = '';
-          
-          data.data.forEach(endpoint => {
-            const endpointItem = document.createElement('div');
-            endpointItem.className = 'custom-endpoint-item';
-            
-            const endpointPath = document.createElement('div');
-            endpointPath.className = 'endpoint-path';
-            endpointPath.textContent = `${API_BASE_URL}/custom/${endpoint.path}`;
-            
-            const endpointInfo = document.createElement('div');
-            endpointInfo.className = 'endpoint-info';
-            
-            const endpointMethods = document.createElement('div');
-            endpointMethods.className = 'endpoint-methods';
-            
-            endpoint.methods.forEach(method => {
-              const methodTag = document.createElement('span');
-              methodTag.className = `endpoint-method-tag method ${method.toLowerCase()}`;
-              methodTag.textContent = method;
-              endpointMethods.appendChild(methodTag);
-            });
-            
-            const tryButton = document.createElement('button');
-            tryButton.className = 'try-btn';
-            tryButton.textContent = 'Try it';
-            tryButton.setAttribute('data-url', `${API_BASE_URL}/custom/${endpoint.path}`);
-            tryButton.setAttribute('data-method', 'GET');
-            tryButton.addEventListener('click', () => {
-              openRequestModal(`${API_BASE_URL}/custom/${endpoint.path}`, 'GET');
-            });
-            
-            const deleteButton = document.createElement('button');
-            deleteButton.className = 'try-btn';
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', () => {
-              deleteCustomEndpoint(endpoint.path);
-            });
-            
-            endpointInfo.appendChild(endpointMethods);
-            endpointInfo.appendChild(tryButton);
-            endpointInfo.appendChild(deleteButton);
-            
-            endpointItem.appendChild(endpointPath);
-            endpointItem.appendChild(endpointInfo);
-            
-            customEndpointsList.appendChild(endpointItem);
+    // Get the user's custom endpoints from localStorage
+    const userEndpoints = getEndpointsFromLocalStorage();
+    
+    if (userEndpoints.length > 0) {
+      customEndpointsList.innerHTML = '';
+      
+      userEndpoints.forEach(endpoint => {
+        const endpointItem = document.createElement('div');
+        endpointItem.className = 'custom-endpoint-item';
+        
+        const endpointPath = document.createElement('div');
+        endpointPath.className = 'endpoint-path';
+        endpointPath.textContent = `${API_BASE_URL}/custom/${endpoint.path}`;
+        
+        const endpointInfo = document.createElement('div');
+        endpointInfo.className = 'endpoint-info';
+        
+        // Add method buttons for testing
+        const methodButtonsContainer = document.createElement('div');
+        methodButtonsContainer.className = 'method-buttons-container';
+        
+        // Create buttons for each supported method
+        endpoint.methods.forEach(method => {
+          // Add method button
+          const methodButton = document.createElement('button');
+          methodButton.className = `method-btn ${method.toLowerCase()}`;
+          methodButton.textContent = method;
+          methodButton.setAttribute('data-url', `${API_BASE_URL}/custom/${endpoint.path}`);
+          methodButton.setAttribute('data-method', method);
+          methodButton.addEventListener('click', () => {
+            openRequestModal(`${API_BASE_URL}/custom/${endpoint.path}`, method);
           });
-        } else {
-          customEndpointsList.innerHTML = '<p class="empty-state">No custom endpoints created yet</p>';
-        }
-      })
-      .catch(error => {
-        customEndpointsList.innerHTML = '<p class="empty-state">Failed to load custom endpoints</p>';
+          methodButtonsContainer.appendChild(methodButton);
+        });
+        
+        // Add actions container for delete button
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'endpoint-actions-container';
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-btn';
+        deleteButton.innerHTML = '<i class="fas fa-trash"></i> Delete';
+        deleteButton.addEventListener('click', () => {
+          deleteCustomEndpoint(endpoint.path);
+        });
+        
+        actionsContainer.appendChild(deleteButton);
+        
+        endpointInfo.appendChild(methodButtonsContainer);
+        endpointInfo.appendChild(actionsContainer);
+        
+        endpointItem.appendChild(endpointPath);
+        endpointItem.appendChild(endpointInfo);
+        
+        customEndpointsList.appendChild(endpointItem);
       });
+    } else {
+      customEndpointsList.innerHTML = '<p class="empty-state">No custom endpoints created yet</p>';
+    }
   }
 
   // Delete custom endpoint
   function deleteCustomEndpoint(path) {
     if (confirm(`Are you sure you want to delete the endpoint ${API_BASE_URL}/custom/${path}?`)) {
+      // First remove from localStorage to ensure UI is updated
+      removeEndpointFromLocalStorage(path);
+      
+      // Update UI
+      updateCustomEndpointsList();
+      
+      // Then attempt to delete from server (even if this fails, the UI is already updated)
       fetch(`${API_BASE_URL}/custom/endpoints/${path}`, {
         method: 'DELETE'
       })
         .then(response => response.json())
         .then(data => {
           if (data.status === 'success') {
-            updateCustomEndpointsList();
             showToast('Endpoint deleted successfully');
           } else {
-            throw new Error(data.message || 'Failed to delete endpoint');
+            // Even if server deletion fails, we keep the endpoint deleted from localStorage
+            console.log('Server deletion failed, but endpoint was removed from localStorage');
           }
         })
         .catch(error => {
-          showToast(error.message || 'An error occurred', 'error');
+          // Log the error but don't restore the endpoint to localStorage
+          console.log('Error deleting from server:', error);
+          showToast('Endpoint removed from your view, but server deletion failed', 'warning');
         });
     }
   }
@@ -446,6 +493,24 @@ document.addEventListener('DOMContentLoaded', () => {
     requestTitle.textContent = `${method} Request`;
     requestMethod.textContent = method;
     requestMethod.className = `method ${method.toLowerCase()}`;
+    
+    // Check if this is a custom endpoint
+    if (url.includes('/api/custom/')) {
+      const path = url.substring(url.lastIndexOf('/') + 1);
+      const userEndpoints = getEndpointsFromLocalStorage();
+      const endpoint = userEndpoints.find(ep => ep.path === path);
+      
+      if (!endpoint) {
+        showToast('This custom endpoint does not exist or belongs to another user session', 'error');
+        return;
+      }
+      
+      // Verify if the method is supported for this endpoint
+      if (!endpoint.methods.includes(method)) {
+        showToast(`Method ${method} is not supported for this endpoint`, 'error');
+        return;
+      }
+    }
     
     // 실제 ID로 URL의 파라미터(:id 등) 대체
     let processedUrl = url;
@@ -492,9 +557,23 @@ document.addEventListener('DOMContentLoaded', () => {
         requestBody.value = JSON.stringify({
           body: 'This is a comment on the post.'
         }, null, 2);
+      } else if (url.includes('/custom/')) {
+        // For custom endpoints, generate a body based on the schema
+        const path = url.substring(url.lastIndexOf('/') + 1);
+        const userEndpoints = getEndpointsFromLocalStorage();
+        const endpoint = userEndpoints.find(ep => ep.path === path);
+        
+        if (endpoint && endpoint.schema) {
+          const previewData = generatePreviewData(endpoint.schema);
+          requestBody.value = JSON.stringify(previewData, null, 2);
+        } else {
+          requestBody.value = JSON.stringify({
+            // Empty object for unknown custom endpoints
+          }, null, 2);
+        }
       } else {
         requestBody.value = JSON.stringify({
-          // Empty object for custom endpoints
+          // Empty object for other endpoints
         }, null, 2);
       }
     } else {
@@ -579,10 +658,21 @@ document.addEventListener('DOMContentLoaded', () => {
           responseStatus.className = 'error';
         }
         
-        return response.json();
+        return response.json().catch(e => {
+          // If JSON parsing fails, return a simple error object
+          return { status: 'error', message: 'Invalid JSON response' };
+        });
       })
       .then(data => {
         responseData.textContent = JSON.stringify(data, null, 2);
+        
+        // Check if this is a custom endpoint that returned a 404 - could mean server was cleaned up
+        if (data.status === 'error' && 
+            data.message && 
+            data.message.includes('not found') && 
+            url.includes('/api/custom/')) {
+          showToast('This endpoint may have been cleaned up on the server. You may need to recreate it.', 'warning');
+        }
       })
       .catch(error => {
         responseStatus.textContent = 'Error';
@@ -604,6 +694,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show toast message
   function showToast(message, type = 'success') {
     toastMessage.textContent = message;
+    
+    // Set the icon based on toast type
+    const toastIcon = document.querySelector('.toast-icon');
+    if (toastIcon) {
+      toastIcon.className = 'toast-icon';
+      if (type === 'success') {
+        toastIcon.classList.add('fas', 'fa-check-circle');
+      } else if (type === 'error') {
+        toastIcon.classList.add('fas', 'fa-times-circle');
+      } else if (type === 'warning') {
+        toastIcon.classList.add('fas', 'fa-exclamation-triangle');
+      } else if (type === 'info') {
+        toastIcon.classList.add('fas', 'fa-info-circle');
+      }
+    }
+    
     toast.className = `toast ${type} show`;
     
     // Auto hide after 3 seconds
