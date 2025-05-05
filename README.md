@@ -23,8 +23,8 @@ A powerful and customizable mock API server for frontend development and testing
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/json-mock-api.git
-cd json-mock-api
+git clone https://github.com/deabal0701/jsonmock.git
+cd jsonmock
 ```
 
 2. Install dependencies:
@@ -39,13 +39,44 @@ npm install
 npm start
 ```
 
-The server will be running at http://localhost:3000
+For development with auto-reloading:
+
+```bash
+npm run dev
+```
+
+The server will be running at http://localhost:3100
+
+## Deployment
+
+The application can be deployed to a production environment. For production deployment:
+
+1. Configure environment variables in `.env` file:
+
+```
+PORT=3100
+NODE_ENV=development
+BASE_URL=http://localhost
+API_URL=http://localhost/api
+CORS_ORIGIN=*
+LOG_LEVEL=info
+```
+
+2. Start the server in production mode:
+
+```bash
+NODE_ENV=development npm start
+```
+
+The development server is available at https://localhost:3100
+
+The Production server is available at https://jsonmock.toolbox365.co.kr
 
 ## Usage
 
 ### Web Interface
 
-Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to access the web interface.
+Open your browser and navigate to [http://localhost:3000](http://localhost:3000) for local development.
 
 ### API Endpoints
 
@@ -133,7 +164,11 @@ You can create your own custom endpoints with a defined schema:
 
 ## API Documentation
 
-Swagger UI documentation is available at [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
+Swagger UI documentation is available at [http://localhost:3000/api-docs](http://localhost:3000/api-docs) for local development or [https://jsonmock.toolbox365.co.kr/api-docs](https://jsonmock.toolbox365.co.kr/api-docs) for the production server.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
