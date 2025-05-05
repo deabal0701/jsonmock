@@ -1066,4 +1066,39 @@ input:focus, select:focus, textarea:focus {
   .btn {
     width: 100%;
   }
+}
+
+/* SEO Enhancements */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+/* 요청 도움말 스타일 */
+.request-help {
+  margin: var(--spacing-2) 0 var(--spacing-4);
+  color: var(--info-color);
+  font-size: 0.85rem;
+}
+
+.request-help a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.request-help a:hover {
+  color: var(--primary-dark);
+}
+
+/* Toast 메시지 유형 추가 */
+.toast.info .toast-icon {
+  color: var(--info-color);
 } 

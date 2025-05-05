@@ -6,8 +6,19 @@ const {
   generateId 
 } = require('../data/generator');
 
-// In-memory storage
-let users = generateUsers(10);
+// 기존 ID를 8자리 형식으로 변환하는 함수
+function convertToShortId(item) {
+  if (item.id && typeof item.id === 'string') {
+    const newItem = { ...item };
+    // 기존 ID의 첫 8자리만 사용
+    newItem.id = item.id.substring(0, 8);
+    return newItem;
+  }
+  return item;
+}
+
+// 초기 사용자 데이터 생성 및 ID 형식 변환
+let users = generateUsers(20).map(convertToShortId);
 
 // GET all users
 router.get('/', (req, res) => {
@@ -126,7 +137,7 @@ router.delete('/:id', (req, res) => {
 
 // DELETE all users and regenerate
 router.delete('/', (req, res) => {
-  const count = req.query.count || 10;
+  const count = req.query.count || 20;
   users = generateUsers(count);
   
   return res.json({

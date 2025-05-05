@@ -6,8 +6,27 @@ const {
   generateId 
 } = require('../data/generator');
 
-// In-memory storage
-let posts = generatePosts(20);
+// 기존 ID를 8자리 형식으로 변환하는 함수
+function convertToShortId(item) {
+  if (!item) return item;
+  
+  const newItem = { ...item };
+  
+  // id 변환
+  if (newItem.id && typeof newItem.id === 'string') {
+    newItem.id = newItem.id.substring(0, 8);
+  }
+  
+  // userId 변환
+  if (newItem.userId && typeof newItem.userId === 'string') {
+    newItem.userId = newItem.userId.substring(0, 8);
+  }
+  
+  return newItem;
+}
+
+// 초기 게시물 데이터 생성 및 ID 형식 변환
+let posts = generatePosts(20).map(convertToShortId);
 
 // GET all posts
 router.get('/', (req, res) => {
@@ -61,6 +80,12 @@ router.get('/user/:userId', (req, res) => {
 // POST a new post
 router.post('/', (req, res) => {
   const newPost = { ...generatePost(), ...req.body, id: generateId() };
+  
+  // userId가 전체 UUID라면 첫 8자리로 변환
+  if (newPost.userId && typeof newPost.userId === 'string' && newPost.userId.length > 8) {
+    newPost.userId = newPost.userId.substring(0, 8);
+  }
+  
   posts.push(newPost);
   
   return res.status(201).json({
@@ -139,7 +164,7 @@ router.delete('/:id', (req, res) => {
 // DELETE all posts and regenerate
 router.delete('/', (req, res) => {
   const count = req.query.count || 20;
-  posts = generatePosts(count);
+  posts = generatePosts(count).map(convertToShortId);
   
   return res.json({
     status: 'success',

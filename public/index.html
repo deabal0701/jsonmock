@@ -3,11 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Mock API Server</title>
+    <title>JSON Mock API Server - Mock API for Frontend Development</title>
+    <meta name="description" content="A customizable mock API server for frontend development and testing. 프론트엔드 개발 및 테스트를 위한 맞춤형 목업 API 서버. JSON 데이터 생성 서비스.">
+    <meta name="keywords" content="mock api, json, rest api, 목업 api, 제이슨, frontend development, 프론트엔드 개발, API testing, API 테스트, fake data, 가짜 데이터">
+    <meta name="author" content="deabal0701">
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="JSON Mock API Server">
+    <meta property="og:description" content="Generate realistic API responses with customizable data. 맞춤형 데이터로 실제 같은 API 응답 생성.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jsonmock.toolbox365.co.kr">
+    <meta property="og:image" content="https://jsonmock.toolbox365.co.kr/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="canonical" href="https://jsonmock.toolbox365.co.kr">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "JSON Mock API Server",
+      "alternateName": "JSON 목업 API 서버",
+      "url": "https://jsonmock.toolbox365.co.kr",
+      "description": "A customizable mock API server for frontend development and testing. 프론트엔드 개발 및 테스트를 위한 맞춤형 목업 API 서버.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "RESTful API endpoints, Custom data schemas, Swagger documentation, 사용자 정의 엔드포인트, 스웨거 문서",
+      "keywords": "Mock API, REST API, JSON, 목업 API, 테스트 API, 프론트엔드 개발 도구"
+    }
+    </script>
 </head>
 <body>
     <div class="app-container">
@@ -29,6 +58,18 @@
         </header>
 
         <main class="main">
+            <!-- 아래 요소는 스크린 리더에만 보이고 시각적으로는 숨겨집니다 (SEO 목적) -->
+            <div class="visually-hidden">
+                <h2>JSON Mock API Server - 프론트엔드 개발을 위한 목업 API 서버</h2>
+                <p>이 도구는 RESTful API를 모의로 구현하여 프론트엔드 개발 및 테스트를 쉽게 만들어 줍니다. 사용자, 게시물, 댓글 API와 사용자 정의 엔드포인트를 제공합니다.</p>
+                <ul>
+                    <li>사용자 API - 사용자 정보 CRUD 작업</li>
+                    <li>게시물 API - 게시물 정보 CRUD 작업</li>
+                    <li>댓글 API - 댓글 정보 CRUD 작업</li>
+                    <li>커스텀 API - 사용자 정의 데이터 스키마 생성</li>
+                </ul>
+            </div>
+
             <section id="home" class="section active">
                 <div class="hero">
                     <div class="hero-content">
@@ -114,7 +155,7 @@
                                 <span class="method get">GET</span>
                                 <span class="path">/api/users/:id</span>
                                 <span class="description">Get user by ID</span>
-                                <button class="try-btn" data-url="/api/users/1" data-method="GET">Try it</button>
+                                <button class="try-btn" data-url="/api/users/:id" data-method="GET">Try it</button>
                             </div>
                             <div class="endpoint-item">
                                 <span class="method post">POST</span>
@@ -126,13 +167,13 @@
                                 <span class="method put">PUT</span>
                                 <span class="path">/api/users/:id</span>
                                 <span class="description">Update user</span>
-                                <button class="try-btn" data-url="/api/users/1" data-method="PUT">Try it</button>
+                                <button class="try-btn" data-url="/api/users/:id" data-method="PUT">Try it</button>
                             </div>
                             <div class="endpoint-item">
                                 <span class="method delete">DELETE</span>
                                 <span class="path">/api/users/:id</span>
                                 <span class="description">Delete user</span>
-                                <button class="try-btn" data-url="/api/users/1" data-method="DELETE">Try it</button>
+                                <button class="try-btn" data-url="/api/users/:id" data-method="DELETE">Try it</button>
                             </div>
                         </div>
                     </div>
@@ -153,13 +194,13 @@
                                 <span class="method get">GET</span>
                                 <span class="path">/api/posts/:id</span>
                                 <span class="description">Get post by ID</span>
-                                <button class="try-btn" data-url="/api/posts/1" data-method="GET">Try it</button>
+                                <button class="try-btn" data-url="/api/posts/:id" data-method="GET">Try it</button>
                             </div>
                             <div class="endpoint-item">
                                 <span class="method get">GET</span>
                                 <span class="path">/api/posts/user/:userId</span>
                                 <span class="description">Get user posts</span>
-                                <button class="try-btn" data-url="/api/posts/user/1" data-method="GET">Try it</button>
+                                <button class="try-btn" data-url="/api/posts/user/:userId" data-method="GET">Try it</button>
                             </div>
                             <div class="endpoint-item">
                                 <span class="method post">POST</span>
@@ -171,7 +212,7 @@
                                 <span class="method delete">DELETE</span>
                                 <span class="path">/api/posts/:id</span>
                                 <span class="description">Delete post</span>
-                                <button class="try-btn" data-url="/api/posts/1" data-method="DELETE">Try it</button>
+                                <button class="try-btn" data-url="/api/posts/:id" data-method="DELETE">Try it</button>
                             </div>
                         </div>
                     </div>
@@ -192,13 +233,13 @@
                                 <span class="method get">GET</span>
                                 <span class="path">/api/comments/:id</span>
                                 <span class="description">Get comment by ID</span>
-                                <button class="try-btn" data-url="/api/comments/1" data-method="GET">Try it</button>
+                                <button class="try-btn" data-url="/api/comments/:id" data-method="GET">Try it</button>
                             </div>
                             <div class="endpoint-item">
                                 <span class="method get">GET</span>
                                 <span class="path">/api/comments/post/:postId</span>
                                 <span class="description">Get post comments</span>
-                                <button class="try-btn" data-url="/api/comments/post/1" data-method="GET">Try it</button>
+                                <button class="try-btn" data-url="/api/comments/post/:postId" data-method="GET">Try it</button>
                             </div>
                             <div class="endpoint-item">
                                 <span class="method post">POST</span>
@@ -210,7 +251,7 @@
                                 <span class="method delete">DELETE</span>
                                 <span class="path">/api/comments/:id</span>
                                 <span class="description">Delete comment</span>
-                                <button class="try-btn" data-url="/api/comments/1" data-method="DELETE">Try it</button>
+                                <button class="try-btn" data-url="/api/comments/:id" data-method="DELETE">Try it</button>
                             </div>
                         </div>
                     </div>
@@ -424,7 +465,7 @@
                     <div class="request-details">
                         <div class="request-url-container">
                             <span id="request-method" class="method get">GET</span>
-                            <input type="text" id="request-url" value="/api/users" readonly>
+                            <input type="text" id="request-url" value="/api/users">
                         </div>
                         
                         <div class="request-body-container" id="request-body-container">
@@ -465,6 +506,16 @@
 
     <footer class="footer">
         <p>&copy; 2023 JSON Mock API. Built with <i class="fas fa-heart"></i> using Node.js and Express.</p>
+        <!-- SEO를 위한 숨겨진 텍스트 -->
+        <div class="visually-hidden">
+            <p>JSON Mock API - RESTful API 응답을 모의로 생성하는 도구 | 프론트엔드 개발 및 테스트 솔루션</p>
+            <p>
+                JSON Mock API Server는 프론트엔드 개발자를 위한 강력한 도구로, RESTful API를 모의로 구현하여 실제 백엔드 없이도 
+                개발 및 테스트를 가능하게 합니다. 이 도구는 사용자, 게시물, 댓글 등의 데이터를 자동으로 생성하며 
+                커스텀 엔드포인트도 만들 수 있습니다. 
+                Mock API Server, REST API Testing Tool, Frontend Development Tool, API 모의 서버, API 테스트 도구.
+            </p>
+        </div>
     </footer>
 
     <div class="toast" id="toast">

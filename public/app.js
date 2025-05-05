@@ -281,15 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate a mock ID
   function generateMockId() {
-    const segments = [
-      Math.random().toString(16).slice(2, 10),
-      Math.random().toString(16).slice(2, 6),
-      Math.random().toString(16).slice(2, 6),
-      Math.random().toString(16).slice(2, 6),
-      Math.random().toString(16).slice(2, 14)
-    ];
-    
-    return segments.join('-');
+    // UUID의 첫 8자리만 반환 (예: "5f8d0f3e")
+    return Math.random().toString(16).slice(2, 10);
   }
 
   // Create custom endpoint function
@@ -453,7 +446,31 @@ document.addEventListener('DOMContentLoaded', () => {
     requestTitle.textContent = `${method} Request`;
     requestMethod.textContent = method;
     requestMethod.className = `method ${method.toLowerCase()}`;
-    requestUrl.value = url;
+    
+    // 실제 ID로 URL의 파라미터(:id 등) 대체
+    let processedUrl = url;
+    
+    // 각 엔드포인트 유형에 맞는 테스트 ID 생성 (첫 번째 사용자의 ID를 가져오는 것이 좋지만, 지금은 임의로 생성)
+    const mockId = generateMockId();
+    
+    // URL에 :id가 포함되어 있으면 생성된 ID로 대체
+    if (url.includes('/:id')) {
+      processedUrl = url.replace('/:id', `/${mockId}`);
+      
+      // 사용자를 위한 도움말 표시
+      showToast('URL에 8자리 ID를 입력해 주세요. 전체 목록에서 실제 ID를 확인할 수 있습니다.', 'info');
+    }
+    
+    // URL 파라미터가 있는 다른 패턴 (예: /user/:userId)
+    if (url.includes('/:userId')) {
+      processedUrl = url.replace('/:userId', `/${mockId}`);
+    }
+    
+    if (url.includes('/:postId')) {
+      processedUrl = url.replace('/:postId', `/${mockId}`);
+    }
+    
+    requestUrl.value = processedUrl;
     
     // Show/hide request body based on method
     if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
@@ -482,6 +499,34 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } else {
       requestBodyContainer.style.display = 'none';
+    }
+    
+    // 먼저 전체 목록 가져오기 링크 추가
+    const requestHelp = document.createElement('div');
+    requestHelp.className = 'request-help';
+    requestHelp.innerHTML = url.includes('/:id') || url.includes('/:userId') || url.includes('/:postId') ? 
+      `<small>💡 Tip: <a href="#" id="fetch-list-link">전체 목록</a>에서 실제 ID를 확인하세요.</small>` : '';
+    
+    // 기존 요소가 있으면 제거
+    const existingHelp = document.querySelector('.request-help');
+    if (existingHelp) {
+      existingHelp.remove();
+    }
+    
+    // 새 요소 추가
+    const requestUrlContainer = document.querySelector('.request-url-container');
+    requestUrlContainer.parentNode.insertBefore(requestHelp, requestUrlContainer.nextSibling);
+    
+    // 전체 목록 가져오기 링크 클릭 이벤트
+    const fetchListLink = document.getElementById('fetch-list-link');
+    if (fetchListLink) {
+      fetchListLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // URL에서 기본 경로 추출 (예: '/api/users/:id' -> '/api/users')
+        const basePath = url.split('/:')[0];
+        openRequestModal(basePath, 'GET');
+      });
     }
     
     // Clear previous response

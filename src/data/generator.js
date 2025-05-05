@@ -1,7 +1,7 @@
 const { faker } = require('@faker-js/faker');
 
-// Generate a random ID
-const generateId = () => faker.string.uuid();
+// Generate a random ID (first 8 characters of UUID)
+const generateId = () => faker.string.uuid().substring(0, 8);
 
 // Generate a user with optional override properties
 const generateUser = (overrides = {}) => {
