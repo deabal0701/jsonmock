@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastMessage = document.querySelector('.toast-message');
   const tryButtons = document.querySelectorAll('.try-btn');
   const sectionNavLinks = document.querySelectorAll('a[href^="#"]:not([href^="http"])');
+  const copyButtons = document.querySelectorAll('.copy-btn');
 
   // localStorage key for custom endpoints
   const LOCAL_STORAGE_ENDPOINTS_KEY = 'jsonmock_custom_endpoints';
@@ -139,6 +140,17 @@ document.addEventListener('DOMContentLoaded', () => {
   copyResponseBtn.addEventListener('click', () => {
     copyToClipboard(responseData.textContent);
     showToast('Response copied to clipboard!');
+  });
+
+  // Handle all copy buttons
+  copyButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const textToCopy = button.getAttribute('data-text');
+      if (textToCopy) {
+        copyToClipboard(textToCopy);
+        showToast('Code copied to clipboard!');
+      }
+    });
   });
 
   // Add schema field function

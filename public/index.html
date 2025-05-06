@@ -132,6 +132,58 @@
                         <p>Swagger documentation for all endpoints</p>
                     </div>
                 </div>
+                
+                <div class="rest-api-guide">
+                    <h2>RESTful API Made Easy</h2>
+                    <p class="guide-description">JSON Mock API simulates backend services to accelerate frontend development. Just focus on building your UI while we provide the data!</p>
+                    
+                    <div class="api-examples">
+                        <div class="example-columns">
+                            <div class="example-column">
+                                <h3>Quick Start Examples</h3>
+                                <div class="code-block">
+                                    <code>// Get all users
+fetch('/api/users')
+  .then(res => res.json())
+  .then(data => console.log(data))</code>
+                                    <button class="copy-btn" data-text="fetch('/api/users').then(res => res.json()).then(data => console.log(data))">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <div class="code-block">
+                                    <code>// Create a new post
+fetch('/api/posts', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    title: 'New Post',
+    body: 'This is the content'
+  })
+})</code>
+                                    <button class="copy-btn" data-text="fetch('/api/posts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: 'New Post', body: 'This is the content' }) })">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="example-column">
+                                <h3>Why Use Mock APIs?</h3>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check-circle"></i> Develop without waiting for backend</li>
+                                    <li><i class="fas fa-check-circle"></i> Test various API scenarios easily</li>
+                                    <li><i class="fas fa-check-circle"></i> No server setup required</li>
+                                    <li><i class="fas fa-check-circle"></i> Realistic data responses</li>
+                                    <li><i class="fas fa-check-circle"></i> Supports all standard HTTP methods</li>
+                                    <li><i class="fas fa-check-circle"></i> Customizable to your needs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="#endpoints" class="btn primary nav-link">See All Endpoints</a>
+                        <a href="#custom" class="btn secondary nav-link">Create Custom API</a>
+                    </div>
+                </div>
             </section>
 
             <section id="endpoints" class="section">
@@ -509,7 +561,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2023 JSON Mock API. Built with <i class="fas fa-heart"></i> using Node.js and Express.</p>
+        <p>&copy; 2023 JSON Mock API. A developer tool <i class="fas fa-heart"></i> crafted to simplify frontend testing with realistic API responses.</p>
         <!-- SEO를 위한 숨겨진 텍스트 -->
         <div class="visually-hidden">
             <p>JSON Mock API - RESTful API 응답을 모의로 생성하는 도구 | 프론트엔드 개발 및 테스트 솔루션</p>
