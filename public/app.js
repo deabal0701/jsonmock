@@ -730,6 +730,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
+  // Visitor counter functionality
+  function fetchVisitorStats() {
+    fetch('/api/stats')
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          const visitorCountElement = document.getElementById('visitor-count');
+          if (visitorCountElement) {
+            visitorCountElement.textContent = `${data.data.totalVisits} (${data.data.uniqueVisitors} unique)`;
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching visitor stats:', error);
+        const visitorCountElement = document.getElementById('visitor-count');
+        if (visitorCountElement) {
+          visitorCountElement.textContent = 'Unable to load';
+        }
+      });
+  }
+
   // Initial setup
   updateSchemaPreview();
   updateCustomEndpointsList();
@@ -744,5 +765,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (copyApiUrlBtn && copyApiUrlBtn.classList.contains('copy-btn')) {
       copyApiUrlBtn.setAttribute('data-text', API_BASE_URL);
     }
+  }
+
+  // Fetch visitor stats
+  fetchVisitorStats();
+  
+  // Set up a click handler for the visitor counter to refresh stats
+  const visitorCounter = document.getElementById('visitor-counter');
+  if (visitorCounter) {
+    visitorCounter.addEventListener('click', function(e) {
+      e.preventDefault();
+      fetchVisitorStats();
+      showToast('Visitor stats refreshed');
+    });
   }
 }); 

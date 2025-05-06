@@ -12,6 +12,10 @@ const usersRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const commentsRoute = require('./routes/comments');
 const customRoute = require('./routes/custom');
+const statsRoute = require('./routes/stats');
+
+// Middleware
+const { visitorCounter } = require('./middleware/visitorCounter');
 
 // Initialize Express app
 const app = express();
@@ -24,6 +28,9 @@ app.use(cors({
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'production' : 'dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Visitor counter middleware
+app.use(visitorCounter);
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, '../public')));
@@ -75,6 +82,7 @@ app.use('/api/users', usersRoute);
 app.use('/api/posts', postsRoute);
 app.use('/api/comments', commentsRoute);
 app.use('/api/custom', customRoute);
+app.use('/api/stats', statsRoute);
 
 // Home route
 app.get('/', (req, res) => {

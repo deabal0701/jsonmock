@@ -193,20 +193,96 @@ ul, ol {
 }
 
 .footer {
-  background-color: var(--gray-800);
-  color: var(--gray-200);
+  background-color: #1a1a2e;
+  color: #fff;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+  margin-bottom: 1.5rem;
+}
+
+.footer-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #16db93;
+}
+
+.footer-section p {
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #16db93;
+}
+
+#visitor-counter {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#visitor-counter:before {
+  content: "\f080";  /* FontAwesome chart icon */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 0.5rem;
+  color: #16db93;
+}
+
+#visitor-count {
+  font-weight: bold;
+  color: #16db93;
+}
+
+.footer-bottom {
   text-align: center;
-  padding: var(--spacing-6);
-  margin-top: var(--spacing-12);
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid #444;
 }
 
-.footer p {
-  font-size: 0.875rem;
+.footer-bottom p {
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
-.footer i.fa-heart {
-  color: var(--error-color);
-  margin: 0 var(--spacing-1);
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+  }
+  
+  .footer-section {
+    margin-bottom: 2rem;
+  }
 }
 
 /* Section */

@@ -511,68 +511,81 @@ fetch('/api/posts', {
             </section>
         </main>
 
-        <div id="request-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="request-title">API Request</h3>
-                    <button class="close-btn">&times;</button>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About JSON Mock API</h3>
+                    <p>A simple but powerful mock API server for frontend development and testing.</p>
                 </div>
-                <div class="modal-body">
-                    <div class="request-details">
-                        <div class="request-url-container">
-                            <span id="request-method" class="method get">GET</span>
-                            <input type="text" id="request-url" value="/api/users">
-                        </div>
-                        
-                        <div class="request-body-container" id="request-body-container">
-                            <label for="request-body">Request Body (JSON)</label>
-                            <textarea id="request-body" rows="5" placeholder="{
-  // Enter request body here
-}"></textarea>
-                        </div>
-                        
-                        <button id="send-request-btn" class="btn primary">Send Request</button>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#endpoints">Endpoints</a></li>
+                        <li><a href="#custom">Custom API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <ul>
+                        <li><a href="https://github.com/yourusername/json-mock-api" target="_blank">GitHub</a></li>
+                        <li><a href="#" id="visitor-counter">Visitors: <span id="visitor-count">Loading...</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 JSON Mock API. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="request-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="request-title">API Request</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="request-details">
+                    <div class="request-url-container">
+                        <span id="request-method" class="method get">GET</span>
+                        <input type="text" id="request-url" value="/api/users">
                     </div>
                     
-                    <div class="response-container">
-                        <div class="response-header">
-                            <h4>Response</h4>
-                            <div class="response-meta">
-                                <span id="response-status"></span>
-                                <span id="response-time"></span>
-                            </div>
+                    <div class="request-body-container" id="request-body-container">
+                        <label for="request-body">Request Body (JSON)</label>
+                        <textarea id="request-body" rows="5" placeholder="{
+  // Enter request body here
+}"></textarea>
+                    </div>
+                    
+                    <button id="send-request-btn" class="btn primary">Send Request</button>
+                </div>
+                
+                <div class="response-container">
+                    <div class="response-header">
+                        <h4>Response</h4>
+                        <div class="response-meta">
+                            <span id="response-status"></span>
+                            <span id="response-time"></span>
                         </div>
-                        <div class="code-window">
-                            <div class="code-header">
-                                <span class="dot red"></span>
-                                <span class="dot yellow"></span>
-                                <span class="dot green"></span>
-                                <span class="title">Response</span>
-                                <button id="copy-response-btn" class="copy-btn">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                            <pre><code id="response-data"></code></pre>
+                    </div>
+                    <div class="code-window">
+                        <div class="code-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">Response</span>
+                            <button id="copy-response-btn" class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                            </button>
                         </div>
+                        <pre><code id="response-data"></code></pre>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <footer class="footer">
-        <p>&copy; 2023 JSON Mock API. A developer tool <i class="fas fa-heart"></i> crafted to simplify frontend testing with realistic API responses.</p>
-        <!-- SEO를 위한 숨겨진 텍스트 -->
-        <div class="visually-hidden">
-            <p>JSON Mock API - RESTful API 응답을 모의로 생성하는 도구 | 프론트엔드 개발 및 테스트 솔루션</p>
-            <p>
-                JSON Mock API Server는 프론트엔드 개발자를 위한 강력한 도구로, RESTful API를 모의로 구현하여 실제 백엔드 없이도 
-                개발 및 테스트를 가능하게 합니다. 이 도구는 사용자, 게시물, 댓글 등의 데이터를 자동으로 생성하며 
-                커스텀 엔드포인트도 만들 수 있습니다. 
-                Mock API Server, REST API Testing Tool, Frontend Development Tool, API 모의 서버, API 테스트 도구.
-            </p>
-        </div>
-    </footer>
 
     <div class="toast" id="toast">
         <div class="toast-content">

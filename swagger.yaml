@@ -19,6 +19,8 @@ tags:
     description: Comment management endpoints
   - name: Custom
     description: Custom endpoint management
+  - name: stats
+    description: Visitor statistics operations
 
 paths:
   /users:
@@ -421,6 +423,77 @@ paths:
                         type: array
                         items:
                           type: string
+
+  /api/custom/{id}:
+    $ref: '#/paths/~1api~1custom~1{id}'
+    
+  /api/stats:
+    get:
+      tags:
+        - stats
+      summary: Get visitor statistics
+      description: Retrieve total and unique visitor counts for the API server
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      totalVisits:
+                        type: integer
+                        description: Total number of visits to the server
+                        example: 1500
+                      uniqueVisitors:
+                        type: integer
+                        description: Number of unique visitors based on IP address
+                        example: 250
+                      lastReset:
+                        type: string
+                        format: date-time
+                        description: When the visitor stats were last reset
+                        example: '2023-10-01T00:00:00.000Z'
+  
+  /api/stats/reset:
+    post:
+      tags:
+        - stats
+      summary: Reset visitor statistics
+      description: Reset all visitor statistics to zero (admin use only)
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Visitor statistics reset successfully
+        '500':
+          description: Failed to reset statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Failed to reset visitor statistics
 
 components:
   schemas:
