@@ -7,7 +7,7 @@ info:
     email: example@example.com
 
 servers:
-  - url: http://localhost:3000/api
+  - url: http://jsonmock.toolbox365.co.kr/api
     description: Local development server
 
 tags:
